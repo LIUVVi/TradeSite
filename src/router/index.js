@@ -1,4 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
+
 const Home = () => import('@/views/home/Home')
 const Mine = () => import('@/views/mine/Mine')
 const AddPolicy = () => import('@/views/addpolicy/AddPolicy')
@@ -7,6 +8,7 @@ const HomeMarket = () => import('@/views/home/HomeMarket')
 const Details = () => import('@/views/details/Details')
 const Login = () => import('@/views/sign/Login')
 const About = () => import('@/views/about/About')
+
 const routes = [
   {
     path: '/',
@@ -49,7 +51,8 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+ /* history: createWebHistory(process.env.BASE_URL),*/
+  history: createWebHashHistory(),
   routes
 })
 

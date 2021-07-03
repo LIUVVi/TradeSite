@@ -1,16 +1,16 @@
 <template>
   <div class="preview-container">
     <div class="title">
-      <div>{{type}}/USDT</div>
+      <div>{{type}}</div>
       <div>详情</div>
     </div>
     <div class="income">
       <div>
         <div>收益[USDT]</div>
-        <div>收益率</div>
+        <div>--/--</div>
       </div>
       <div>
-        <div>{{income}}</div>
+        <div>{{totalprofit}}</div>
         <div :class="[incomeRate >= 0 ? 'psrate' : 'ngrate']">{{incomeRate}}%</div>
       </div>
     </div>
@@ -18,12 +18,13 @@
       <div>
         <div>最低价[USDT]</div>
         <div>最高价[USDT]</div>
-        <div>最新价[USDT]</div>
+        <div>运行状态[USDT]</div>
       </div>
       <div>
         <div>{{minPrice}}</div>
         <div>{{maxPrice}}</div>
-        <div>{{nowPrice}}</div>
+        <div v-if="is_started" class="started">正在运行</div>
+        <div v-else class="stop">未运行</div>
       </div>
     </div>
   </div>
@@ -34,11 +35,12 @@ export default {
   name: "HomeBiPreview",
   props: {
     type: String,
-    income: String,
+    totalprofit: String,
     incomeRate: Number,
     minPrice: Number,
     maxPrice: Number,
-    nowPrice: Number,
+    is_started: Boolean
+    
   }
 }
 </script>
@@ -115,6 +117,12 @@ export default {
   color: #4daa90;
 }
 .ngrate {
+  color: #ff5050;
+}
+.started {
+  color: #4daa90;
+}
+.stop {
   color: #ff5050;
 }
 </style>

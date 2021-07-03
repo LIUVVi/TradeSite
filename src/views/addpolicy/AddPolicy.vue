@@ -4,13 +4,18 @@
       <span class="tab-selected">创建策略</span>
     </div>
     <div class="input-container">
-      <select class="input-select" v-model="policyForm.symbol">
+<!--      <select class="input-select" v-model="policyForm.symbol">
         <option value='0' disabled selected style='display:none;color: #c7ced4'>请选择币种</option>
         <option value ="DOGE">DOGE</option>
-        <option value ="btcusdt">btcusdt</option>
+        <option value ="BTC">BTC</option>
         <option value="ETH">ETH</option>
         <option value="LTC">LTC</option>
-      </select>
+        <option value="HT">HT</option>
+        <option value="DOT">DOT</option>
+        <option value="LINK">LINK</option>
+        <option value="XRP">XRP</option>
+      </select>-->
+      <input type="text"  v-model="policyForm.symbol" placeholder="请输入交易币对">
       <input type="number"
              placeholder="最低区间[USDT]"
              v-model.number="block.low"/><br/>
@@ -24,7 +29,7 @@
              placeholder="网格数量[2-99:格]"
              v-model.number="policyForm.grid_size"/><br/>
       <input type="number"
-             placeholder="投入金额[USDT]"
+             placeholder="单次投入金额[USDT]"
              v-model.number="policyForm.money"/>
     </div>
     <button class="add-policy" @click="addPolicy">立即创建</button>
@@ -60,7 +65,8 @@ export default {
     addPolicy() {
       this.policyForm.grid_range = [this.block.low, this.block.high]
       addPolicy(this.policyForm).then(res => {
-        console.log(res);
+        alert('添加成功');
+        this.$router.push('/home/trans')
       })
     }
   }

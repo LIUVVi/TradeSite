@@ -2,7 +2,7 @@
   <div class="detail-container">
     <div class="title-bar-wrap">
       <img src="@/assets/img/common/back.svg" @click="goBack">
-      <span>DOGE/USDT</span>
+      <span>{{policyDetails.symbol}}</span>
     </div>
     <div class="income">
       <div>
@@ -10,8 +10,8 @@
         <div>收益率</div>
       </div>
       <div>
-        <div>+80</div>
-        <div>+123%</div>
+        <div>{{policyDetails.totalprofit}}</div>
+        <div>0%</div>
       </div>
     </div>
     <div class="price">
@@ -23,25 +23,59 @@
       <div>
         <div>{{policyDetails.grid_range[0]}}</div>
         <div>{{policyDetails.grid_range[1]}}</div>
-        <div>0.6385</div>
+        <div>--/--</div>
       </div>
     </div>
     <div class="price">
       <div>
         <div>手续费[USDT]</div>
-        <div>投入金额[USDT]</div>
+        <div>单次买入金额[USDT]</div>
         <div>网格数[格]</div>
       </div>
       <div>
-        <div>{{policyDetails.trading_charge}}</div>
+        <div>{{(policyDetails.money * 0.00005).toFixed(6)}}</div>
         <div>{{policyDetails.money}}</div>
         <div>{{policyDetails.grid_size}}</div>
       </div>
     </div>
-    <div id="map" class="map"/>
+<!--    <div id="map" class="map"/>-->
     <div class="btn-wrap">
       <button class="btn-change" @click="delPolicy">删除策略</button>
-      <button class="btn-trans">停止交易</button>
+<!--      <button class="btn-trans" style="display: none" hidden>停止交易</button>-->
+    </div>
+    <div class="tradings" v-for="item in policyDetails.tradings">
+      <div class="price">
+        <div style="color: #c7ced4;margin-bottom: 10px">
+          <div>创建时间</div>
+          <div>{{item.create_time}}</div>
+        </div>
+      </div>
+      <div class="price">
+        <div>
+          <div>买入价[USDT]</div>
+          <div>买入个数</div>
+          <div>卖出价[USDT]</div>
+        </div>
+        <div>
+          <div>{{item.buy_price}}</div>
+          <div>{{item.buy_amount.toFixed(3)}}</div>
+          <div>{{item.sell_price.toFixed(3)}}</div>
+        </div>
+      </div>
+      <div class="price">
+        <div>
+          <div>卖出个数</div>
+          <div>利润</div>
+          <div>交易状态</div>
+        </div>
+        <div>
+          <div>{{item.sell_amount.toFixed(3)}}</div>
+          <div>{{item.profit}}</div>
+          <div v-if="item.is_deal" style="color: #4daa90">已成交</div>
+          <div v-else style="color: #ff5050">未成交</div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -62,11 +96,11 @@ export default {
         grid_range:[],
         grid_size: '',
         grid_profit: '',
-        trading_charge:''
+        trading_charge:'',
+        tradings: []
       },
-      /* 折线图配置 */
-      charts: '',
-      /*	opinion: ["1", "3", "3", "4", "5"],*/
+      /* 折线图配置
+      /*charts: '',
       opinionData: ["3", "2", "4", "4", "5"],
       echartsOptions: {
         grid: {
@@ -99,7 +133,7 @@ export default {
             data: [5, 20, 36, 10, 10, 80]
           }
         ]
-      }
+      }*/
     }
   },
   created() {
@@ -125,11 +159,11 @@ export default {
       })
     }
   },
-  mounted() {
+  /*mounted() {
     this.$nextTick(function() {
       this.drawLine('map')
     })
-  }
+  }*/
 }
 </script>
 
@@ -212,20 +246,21 @@ export default {
 .price:last-child {
   margin-top: 10px;
 }
-.map {
+/*.map {
   width: 100%;
   height: 270px;
   margin-top: 20px;
-}
+}*/
 .btn-wrap {
   width: 100%;
   height: 40px;
+  margin-top: 20px;
   display: flex;
   justify-content: space-between;
 }
 .btn-wrap>button {
   border: none;
-  width: 49%;
+  width: 100%;
   color: #FFFFFF;
   border-radius: 3px;
   font-size: 14px;
@@ -239,5 +274,8 @@ export default {
 }
 .title-bar-wrap>img {
   cursor: pointer;
+}
+.tradings {
+  margin-top: 20px;
 }
 </style>

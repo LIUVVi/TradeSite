@@ -1,18 +1,20 @@
 <template>
   <div class="trans-container">
-    <home-bi-preview v-for="item in transInfo"
+    <home-bi-preview v-for="(item, index) in transInfo" :key="index"
                      :type='item.symbol'
-                     :income="item.income"
+                     :totalprofit="item.totalprofit"
                      :income-rate="item.totalprofit"
                      :min-price="item.grid_range[0]"
                      :max-price="item.grid_range[1]"
-                     :now-price="item.nowPrice" @click="goDetails(item.id)"/>
+                     :is_started="item.is_started"
+                     @click="goDetails(item.id)"/>
   </div>
 </template>
 
 <script>
 import HomeBiPreview from "@/components/home/HomeBiPreview";
 import { getPolicy } from "@/network/policy";
+import * as pako from "pako";
 
 export default {
   name: "HomeTransactions",
@@ -23,27 +25,23 @@ export default {
     return {
       transInfo: [
         {
-          id: '1',
-          symbol: '',
-          income: '+200',
-          totalprofit: +123,
           grid_range:[],
-          nowPrice: 0.6315,
         }
       ]
-    }
-  },
-  methods: {
-    goDetails(id) {
-      this.$router.push('/details/' + id)
     }
   },
   created() {
     getPolicy().then(res => {
       this.transInfo = res
-      console.log(res)
+      console.log("=============:"+res)
     })
+  },
+  methods: {
+    goDetails(id) {
+      this.$router.push('/details/' + id)
+    },
   }
+
 }
 </script>
 

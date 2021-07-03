@@ -38,16 +38,44 @@
       </div>
     </div>
     <div class="share-star-container">
-      <div><img src="@/assets/img/common/mine/share.svg" alt="">分享应用</div>
-      <div><img src="@/assets/img/common/mine/star.svg" alt="">赏个好评</div>
+      <div @click="toggleBox"><img src="@/assets/img/common/mine/share.svg" alt="" >分享应用</div>
+      <div @click="togglemark"><img src="@/assets/img/common/mine/star.svg" alt="">赏个好评</div>
     </div>
     <div class="share-star-container">
-      <div><img src="@/assets/img/common/mine/feedback.svg" alt="">建议反馈</div>
+      <div @click="togglefeed"><img src="@/assets/img/common/mine/feedback.svg" alt="">建议反馈</div>
       <div @click="goAbout"><img src="@/assets/img/common/mine/about.svg" alt="">关于我们</div>
     </div>
     <button class="login-out" @click="logout">退出登录</button>
   </div>
+  <div class="share-box"></div>
   <my-nav-bar/>
+  <div class="shart-container"  v-if="showbox">
+    <div class="share-wrap">
+      <div class="img-wrap">
+        <img src="@/assets/img/code.png" alt="">
+      </div>
+      <div class="share-btn-wrap">
+        <button @click="toggleBox">保存图片</button> |
+        <button @click="toggleBox">复制链接</button>
+      </div>
+    </div>
+  </div>
+  <div class="shart-container" v-if="showmark">
+    <div class="mark-warp">
+      <div class="mark-bg">
+        <img src="@/assets/img/star.svg" alt="">
+      </div>
+      <button @click="togglemark">发送好评</button>
+    </div>
+  </div>
+  <div class="shart-container" v-if="showfeedback">
+    <div class="mark-warp">
+      <div class="mark-bg">
+        <textarea class="feedbox"></textarea>
+      </div>
+      <button @click="togglefeed">发送反馈</button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -65,7 +93,10 @@ export default {
         username: '',
         email: '',
         wallet: ''
-      }
+      },
+      showbox: false,
+      showmark: false,
+      showfeedback: false
     }
   },
   methods: {
@@ -75,6 +106,15 @@ export default {
     logout() {
       localStorage.removeItem("token")
       this.$router.push('/home/market')
+    },
+    toggleBox() {
+      this.showbox = !this.showbox
+    },
+    togglemark() {
+      this.showmark = !this.showmark
+    },
+    togglefeed() {
+      this.showfeedback = !this.showfeedback
     }
   },
   created() {
@@ -87,6 +127,90 @@ export default {
 </script>
 
 <style scoped>
+.feedbox {
+  width: 290px;
+  height: 80px;
+  border: none;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  padding: 10px;
+}
+.mark-bg {
+  width: 350px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mark-warp>button {
+  height: 40px;
+  border: none;
+  width: 350px;
+  border-radius:  0px 0px 20px 20px;
+  font-size: 16px;
+  background-color: #f0f1f5;
+  cursor: pointer;
+}
+.mark-warp {
+  width: 350px;
+  height: 180px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 2px 2px 15px #8f9eab;
+  display: flex;
+  flex-direction: column;
+}
+.shart-container {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: 0.5s rainbow ease-in-out;
+}
+.share-wrap {
+  width: 350px;
+  height: 400px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 2px 2px 15px #8f9eab;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+}
+.img-wrap {
+  width: 350px;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.img-wrap>img {
+  width: 250px;
+  height: 250px;
+}
+.share-btn-wrap {
+  height: 50px;
+  width: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.share-btn-wrap>button {
+  width: 160px;
+  height: 40px;
+  border-radius: 15px;
+  background-color: #FFFFFF;
+  cursor: pointer;
+  border: none;
+}
+@keyframes rainbow {
+  0% { top: 100vh }
+  100% { top: 0 }
+}
 .home-container{
   width: 100%;
   height: 100vh;

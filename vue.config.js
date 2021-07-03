@@ -10,16 +10,5 @@ module.exports = {
             }
         }
     },
-    devServer:{
-        proxy:{
-            ["/api"]:{
-                target:'http://trading.loidair.com',
-                changeOrigin:true,
-                pathRewrite: {
-                    ['^/api']: ''
-                }
-            }
-        }
-    }
 }
 

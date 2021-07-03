@@ -1,20 +1,35 @@
 <template>
   <div class="card-container">
     <div class="content-wrap">
-      <div>DOGE/2550亿</div>
-      <div>￥2000万</div>
+      <div>{{currency}}/{{amount}}M</div>
+      <div>{{vol}}M</div>
     </div>
     <div class="content-wrap">
-      <div>0.6253</div>
-      <div>￥3.25</div>
+      <div>{{close}}</div>
+      <div>{{rmb}}RMB</div>
     </div>
-    <div>+25%</div>
+    <div :class="[ad >= 0 ? 'psrate' : 'ngrate']"><span v-show="ad > 0">+</span><span v-show="ad < 0"></span>{{ad}}%</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "MarketCard"
+  name: "MarketCard",
+  props: {
+    currency: String,
+    amount: Number,
+    vol: Number,
+    close: Number,
+    open: Number
+  },
+  computed: {
+    ad() {
+      return ((this.close - this.open) / this.open * 100).toFixed(2)
+    },
+    rmb() {
+      return (this.close * 6.5).toFixed(2)
+    }
+  }
 }
 </script>
 
@@ -34,7 +49,13 @@ export default {
 }
 .card-container>div:last-child {
   text-align: right;
+
+}
+.psrate {
   color: #4daa90;
+}
+.ngrate {
+  color: #ff5050;
 }
 .content-wrap {
   display: flex;
