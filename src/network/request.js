@@ -4,7 +4,7 @@ axios.defaults.withCredentials=true;
 export function request(config) {
     // 1.创建axios的实例
     const instance = axios.create({
-        baseURL: 'http://139.59.246.176:8090',
+        baseURL: 'xxxx:8090',
         timeout: 10000000,
         headers: {
             Authorization: localStorage.getItem("token")
